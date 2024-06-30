@@ -1,8 +1,9 @@
 <launch>
   <rosparam command="load" file="$(find grid_map_demos)/config/octomap_to_gridmap_demo.yaml" />
 
+  <arg name="user" default="$(env USER)" />
   <!-- Load the octomap -->
-  <node pkg="octomap_server" type="octomap_server_static" name="octomap_server" args="/home/sh/catkin_ws/maps/map_3d.ot" output="screen"/>
+  <node pkg="octomap_server" type="octomap_server_static" name="octomap_server" args="/home/$(arg user)/catkin_ws/maps/map_3d.ot" output="screen"/>
 
   <!-- Launch the octomap conversion node -->
   <node pkg="grid_map_demos" type="octomap_to_gridmap_demo" name="octomap_to_gridmap_demo" output="screen" />

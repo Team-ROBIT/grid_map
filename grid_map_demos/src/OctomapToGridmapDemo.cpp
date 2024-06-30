@@ -18,6 +18,8 @@
 #include <opencv2/imgcodecs.hpp>
 #include "grid_map_cv/grid_map_cv.hpp"
 
+#include <filesystem>
+
 namespace grid_map_demos
 {
 
@@ -99,9 +101,13 @@ namespace grid_map_demos
     grid_map::GridMapRosConverter::toMessage(map_, gridMapMessage);
     gridMapPublisher_.publish(gridMapMessage);
 
+    const char* username = std::getenv("USER");
+    std::string path = std::string("/home/") + username + "/catkin_ws/maps/map_2.5d.pgm";
+
+
     cv::Mat map_img;
     grid_map::GridMapCvConverter::toImage<unsigned char, 1>(map_, "elevation", CV_8UC1, map_img);
-    cv::imwrite("/home/sh/catkin_ws/maps/grid.pgm", map_img);
+    cv::imwrite(path, map_img);
 
     // Also publish as an octomap msg for visualization
     octomap_msgs::Octomap octomapMessage;
